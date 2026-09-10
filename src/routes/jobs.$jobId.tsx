@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Terminal } from "lucide-react";
 import { JobTerminal } from "@/components/job-terminal";
 import { ResultsPanel } from "@/components/results-panel";
 import { StatusBadge } from "@/components/status-badge";
@@ -12,6 +13,7 @@ function JobPage() {
 const { jobId } = Route.useParams();
 const job = useWorkbench((s) => s.jobs.find((j) => j.id === jobId));
 const run = useWorkbench((s) => s.run);
+const [showLog, setShowLog] = useState(false);
 
 useEffect(() => {
 if (job?.status === "queued") void run(job.id);
@@ -29,6 +31,8 @@ return (
 );
 }
 
+const finished = job.status === "completed" || job.status === "failed";
+
 return (
 <div className="mx-auto max-w-6xl">
 <div className="flex flex-wrap items-start justify-between gap-3">
@@ -43,6 +47,10 @@ return (
 </div>
 <div className="flex items-center gap-2">
 <StatusBadge status={job.status} />
+<Button size="sm" variant="outline" onClick={() => setShowLog((v) => !v)}>
+<Terminal />
+{showLog ? "Hide log" : "Show log"}
+</Button>
 {job.status === "failed" ? (
 <Button size="sm" onClick={() => void run(job.id)}>
 Retry
@@ -60,12 +68,12 @@ Open report
 
 <div
 className={
-job.status === "completed" || job.status === "failed"
-? "mt-6 flex flex-col gap-4"
-: "mt-6 grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-stretch"
+showLog && !finished
+? "mt-6 grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-stretch"
+: "mt-6 flex flex-col gap-4"
 }
 >
-<JobTerminal job={job} compact={job.status === "completed" || job.status === "failed"} />
+{showLog ? <JobTerminal job={job} compact={finished} /> : null}
 <ResultsPanel job={job} />
 </div>
 </div>
