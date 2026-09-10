@@ -409,7 +409,11 @@ type="button"
 size="sm"
 variant="ghost"
 className="text-danger hover:text-danger"
-onClick={() => removeContact(contact.id)}
+onClick={() => {
+if (window.confirm(`Delete ${contact.businessName}? This also permanently deletes any reports/jobs run for this business.`)) {
+removeContact(contact.id);
+}
+}}
 >
 <Trash2 />
 Remove

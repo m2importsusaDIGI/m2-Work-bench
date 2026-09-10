@@ -156,11 +156,18 @@ contacts: get().contacts.map((c) =>
 c.id === id ? { ...c, ...partial, updatedAt: new Date().toISOString() } : c,
 ),
 }),
-removeContact: (id) =>
+removeContact: (id) => {
+const contact = get().contacts.find((c) => c.id === id);
 set({
 contacts: get().contacts.filter((c) => c.id !== id),
 tasks: get().tasks.filter((t) => t.contactId !== id),
-}),
+jobs: contact
+? get().jobs.filter(
+(j) => !sameBusiness(contact, { businessName: j.target.businessName, websiteUrl: j.target.websiteUrl }),
+)
+: get().jobs,
+});
+},
 setStage: (id, stage) => get().updateContact(id, { stage }),
 addContactFromLead: (lead, jobId) => {
 const candidate = { businessName: lead.name, websiteUrl: lead.website };
