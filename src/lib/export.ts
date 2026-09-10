@@ -140,6 +140,7 @@ ${scores}
 <h2>Schema implemented</h2>
 ${schema}
 <h2>Local SEO</h2>
+${!job.target.location ? `<p class="meta">No location entered on this job — NAP and Local scores are capped without one. Add a city/state and re-run for a full score.</p>` : ""}
 <p>${escapeHtml(r?.local.gbpDescription || "")}</p>
 <p class="meta">Primary category: ${escapeHtml(r?.local.categories.primary || "")}</p>
 <table><tr><th>Directory</th><th>Status</th><th>Note</th></tr>${citations}</table>

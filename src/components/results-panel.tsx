@@ -173,8 +173,11 @@ return (
 <NapCell label="Address" value={l.nap.address} />
 <NapCell label="Phone" value={l.nap.phone || "—"} />
 </div>
-{(l.nap.issues ?? []).length ? (
+{(l.nap.issues ?? []).length || !job.target.location ? (
 <ul className="rounded-2xl bg-surface p-4 shadow-[var(--shadow-border)] text-sm space-y-1.5">
+{!job.target.location ? (
+<li className="text-warn">No location entered on this job — NAP and Local scores are capped without one.</li>
+) : null}
 {(l.nap.issues ?? []).map((issue) => (
 <li key={issue} className="text-warn">
 {issue}
