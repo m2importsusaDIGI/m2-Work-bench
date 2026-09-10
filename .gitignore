@@ -1,0 +1,8 @@
+node_modules
+.output
+.vinxi
+.env
+dist
+*.log
+.DS_Store
+src/routeTree.gen.ts
