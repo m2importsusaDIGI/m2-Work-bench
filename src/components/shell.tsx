@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { FileBarChart, LayoutDashboard, ListTodo, Cpu, Users } from "lucide-react";
+import { FileBarChart, LayoutDashboard, ListTodo, Cpu, ScanSearch, Users } from "lucide-react";
 import type { ReactNode } from "react";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
@@ -11,6 +11,7 @@ const NAV = [
 { to: "/", label: "Dashboard", icon: LayoutDashboard },
 { to: "/queue", label: "Queue", icon: ListTodo },
 { to: "/crm", label: "CRM", icon: Users },
+{ to: "/audit", label: "Audit", icon: ScanSearch },
 { to: "/reports", label: "Reports", icon: FileBarChart },
 { to: "/modules", label: "Modules", icon: Cpu },
 ] as const;
@@ -95,7 +96,7 @@ Copy source
 className="md:hidden fixed bottom-0 inset-x-0 z-30 border-t border-border bg-bg/95 backdrop-blur-sm"
 style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
 >
-<div className="grid grid-cols-5 h-16">
+<div className="grid grid-cols-6 h-16">
 {NAV.map((item) => {
 const active =
 item.to === "/"

@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import type { CrawlResult, EngineInput, EngineResult, ProspectSearchResult, Target, VisibilityAudit } from "./types";
+import type { CrawlResult, EngineInput, EngineResult, ProspectSearchResult, SeoAuditReport, Target, VisibilityAudit } from "./types";
 
 export const crawlTarget = createServerFn({ method: "POST" })
 .validator((input: { url: string }) => input)
@@ -27,4 +27,10 @@ export const findProspects = createServerFn({ method: "POST" })
 .handler(async ({ data }): Promise<ProspectSearchResult> => {
 const { searchProspects } = await import("./prospect.server");
 return searchProspects(data);
+});
+export const runSeoAudit = createServerFn({ method: "POST" })
+.validator((input: { url: string; pagespeed?: boolean }) => input)
+.handler(async ({ data }): Promise<SeoAuditReport> => {
+const { runSeoAudit: run } = await import("./seo-audit.server");
+return run(data);
 });
