@@ -297,3 +297,39 @@ dueAt: string;
 done: boolean;
 createdAt: string;
 };
+// --- SEO audit engine (seo-engine/m2_audit.py, keyless Claude SEO checks) ---
+export type SeoSeverity = "critical" | "high" | "medium" | "low" | "info";
+
+export interface SeoFinding {
+id: string;
+category: string;
+severity: SeoSeverity;
+title: string;
+detail: string;
+fix: string;
+evidence?: unknown;
+}
+
+export interface SeoAuditReport {
+engine: { name: string; version: string; source: string };
+url: string;
+final_url?: string;
+checked_at: string;
+summary: Record<"critical" | "high" | "medium" | "low", number>;
+findings: SeoFinding[];
+steps: { step: string; ok: boolean; ms: number; error?: string }[];
+data: {
+page?: {
+title?: string | null;
+meta_description?: string | null;
+canonical?: string | null;
+h1?: string[];
+word_count?: number;
+images?: number;
+internal_links?: number;
+external_links?: number;
+};
+local?: { schema_types?: string[]; phones_on_page?: string[]; local_business_type?: string[] };
+[key: string]: unknown;
+};
+}

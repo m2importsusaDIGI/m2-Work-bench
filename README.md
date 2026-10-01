@@ -106,3 +106,25 @@ Contacts and tasks persist the same way jobs do — `localStorage`, same
 - Design tokens live in `src/styles.css` under `@theme` — keep to the
   existing ink/paper/sage palette, no purple, no gold, no emoji icons
   (lucide-react only).
+
+## SEO audit engine (Audit page)
+
+`/audit` runs `seo-engine/m2_audit.py`, a Python wrapper around the keyless
+checks in [Claude SEO](https://github.com/AgriciDaniel/claude-seo) (MIT,
+pinned in `seo-engine/CLAUDE_SEO_VERSION`). It checks the live homepage,
+robots.txt, sitemaps, LocalBusiness schema and NAP, AI-crawler rules,
+llms.txt, bfcache/preload hints, and content-quality heuristics. No API key;
+`PSI_API_KEY` is optional for the PageSpeed toggle.
+
+- **Deployed:** the Dockerfile installs Python and the pinned Claude SEO
+  release, so Railway/Render need no extra setup.
+- **Local `npm run dev`:** needs Python 3.10+ with
+  `pip install -r seo-engine/requirements.txt`, and `CLAUDE_SEO_SCRIPTS`
+  pointing at a `claude-seo/scripts` folder (see `.env.example`).
+- **Standalone on Windows:** copy `tools/M2-SEO-Audit.bat` to the Desktop and
+  double-click it. First run installs everything into
+  `%LOCALAPPDATA%\M2SEOAudit`; reports open in the browser and are saved to
+  `Documents\M2 SEO Audits`.
+
+There is deliberately no 0-100 score: findings are graded critical / high /
+medium / low from what the site actually serves.

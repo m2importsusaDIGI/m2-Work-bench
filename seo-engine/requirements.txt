@@ -1,0 +1,7 @@
+# Minimal deps for m2_audit.py (the keyless subset of Claude SEO it uses).
+# Floors are looser than Claude SEO's own pins so installs never fail on an
+# older index; pip still picks the newest available release.
+beautifulsoup4>=4.12,<5
+requests>=2.32,<3
+urllib3>=2.2,<3
+lxml>=5.0,<7
